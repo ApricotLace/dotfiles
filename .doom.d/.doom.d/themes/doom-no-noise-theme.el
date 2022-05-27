@@ -1,1 +1,0 @@
-/Users/ghrp/prog/no-noise-theme/doom-no-noise-theme.el
