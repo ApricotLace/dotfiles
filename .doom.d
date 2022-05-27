@@ -1,0 +1,1 @@
+/Users/ghrp/.doom.d
