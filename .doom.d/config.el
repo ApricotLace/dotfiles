@@ -1,5 +1,9 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
+;; Path hack for go local binaries FIXME
+(setenv "PATH" (concat (getenv "PATH")  ":/Users/ghrp/go/bin"))
+
+
 (setq user-full-name "Evgeny Mukha"
       user-mail-address "Profunctorlense@gmail.com")
 
