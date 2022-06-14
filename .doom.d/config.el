@@ -101,6 +101,7 @@
       (:leader
        (:map (clojure-mode-map clojurescript-mode-map emacs-lisp-mode-map)
         (:prefix ("k" . "lisp")
+         "t" #'sp-transpose-sexp
          "j" #'paredit-join-sexps
          "c" #'paredit-split-sexp
          "d" #'paredit-kill
