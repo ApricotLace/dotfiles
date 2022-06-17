@@ -100,6 +100,8 @@
         "c" #'sql-connect))
       (:leader
        (:map (clojure-mode-map clojurescript-mode-map emacs-lisp-mode-map)
+        (:prefix ("m" . "cider")
+         "e ;" #'cider-pprint-eval-last-sexp)
         (:prefix ("k" . "lisp")
          "t" #'sp-transpose-sexp
          "j" #'paredit-join-sexps
