@@ -35,3 +35,7 @@ if [ -f '/Users/ghrp/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/ghrp/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ghrp/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+# GO
+export GOPATH=~/.go
+export PATH=$PATH:$GOPATH/bin
