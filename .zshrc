@@ -39,3 +39,6 @@ if [ -f '/Users/ghrp/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/
 # GO
 export GOPATH=~/.go
 export PATH=$PATH:$GOPATH/bin
+
+# DOOM EMACS
+export PATH=$PATH:$HOME/.emacs.d/bin
