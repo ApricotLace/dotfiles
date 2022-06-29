@@ -5,7 +5,7 @@
 
 (setq enable-local-variables t)
 
-(setq doom-font (font-spec :family "Iosevka" :size 18 :antialias="on"))
+(setq doom-font (font-spec :family "Iosevka" :size 16 :antialias="on"))
 
 (setq display-line-numbers-type nil)
 
