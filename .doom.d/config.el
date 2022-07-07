@@ -140,3 +140,5 @@
 
 (setq mode-line-format nil)
 (nano-modeline-mode 1)
+
+(setq projectile-create-missing-test-files t)
