@@ -30,12 +30,6 @@ export NVM_DIR="$HOME/.nvm"
 
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/ghrp/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ghrp/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/ghrp/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ghrp/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-
 # GO
 export GOPATH=~/.go
 export PATH=$PATH:$GOPATH/bin
@@ -50,3 +44,9 @@ _bb_tasks() {
     _files # autocomplete filenames as well
 }
 compdef _bb_tasks bb
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/ghrp/.google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ghrp/.google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/ghrp/.google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ghrp/.google-cloud-sdk/completion.zsh.inc'; fi
