@@ -140,7 +140,6 @@
 (define-key evil-normal-state-map "x" 'delete-forward-char)     ; delete to the black hole
 (define-key evil-normal-state-map "X" 'delete-backward-char)
 
-(setq mode-line-format nil)
 (nano-modeline-mode 1)
 
 (setq projectile-create-missing-test-files t)
@@ -182,3 +181,5 @@
 (define-key evil-normal-state-map (kbd "RET") 'run-sql)
 
 (elcord-mode)
+
+(setq-default mode-line-format nil)

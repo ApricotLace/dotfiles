@@ -51,3 +51,5 @@ if [ -f '/Users/ghrp/.google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ghrp/.goo
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/ghrp/.google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ghrp/.google-cloud-sdk/completion.zsh.inc'; fi
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+alias ftr="rlwrap java -jar ~/dev/ftr/target/ftr.jar"
