@@ -53,3 +53,4 @@ if [ -f '/Users/ghrp/.google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ghr
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
 alias ftr="rlwrap java -jar ~/dev/ftr/target/ftr.jar"
+alias zen="rlwrap java -jar ~/dev/ftr/target/zen.jar"

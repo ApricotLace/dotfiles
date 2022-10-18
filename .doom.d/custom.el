@@ -21,7 +21,9 @@
  '(pdf-view-midnight-colors (cons "#d7d5d1" "#222222"))
  '(rustic-ansi-faces
    ["#222222" "#d7d5d1" "#d7d5d1" "#d7d5d1" "#d7d5d1" "#d7d5d1" "#d7d5d1" "#d7d5d1"])
- '(safe-local-variable-values '((cider-clojure-cli-aliases . "-A:test:build")))
+ '(safe-local-variable-values
+   '((cider-clojure-cli-aliases . "-A:test")
+     (cider-clojure-cli-aliases . "-A:test:build")))
  '(vc-annotate-background "#222222")
  '(vc-annotate-color-map
    (list

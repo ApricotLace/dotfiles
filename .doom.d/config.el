@@ -183,3 +183,5 @@
 (elcord-mode)
 
 (setq-default mode-line-format nil)
+
+(global-hide-mode-line-mode)
