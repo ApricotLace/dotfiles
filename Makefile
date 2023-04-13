@@ -8,3 +8,4 @@ spin-up-shell:
 	ln -sf "$(CURDIR)/.p10k.zsh" ~/.p10k.zsh
 	ln -sf "$(CURDIR)/.zprofile" ~/.zprofile
 	ln -sf "$(CURDIR)/.zshrc" ~/.zshrc
+	ln -sf "$(CURDIR)/.yabairc" ~/.yabairc

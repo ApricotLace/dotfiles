@@ -9,10 +9,15 @@
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
 
-(package! nano-modeline)
 (package! lsp-treemacs)
-(package! elcord)
 (package! org-tree-slide)
+(package! vline)
+(package! col-highlight :recipe
+  (:host github
+   :repo "emacsmirror/col-highlight"
+   :branch "master"
+   :files ("col-highlight.el"))
+  :pin "ab60456a4b96cde2710761ff342db3716dc50776")
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:

@@ -23,8 +23,8 @@ fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 # GCLOUD
 
@@ -46,11 +46,17 @@ _bb_tasks() {
 compdef _bb_tasks bb
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/ghrp/.google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ghrp/.google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/Users/ghrp/.utils/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ghrp/.utils/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/ghrp/.google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ghrp/.google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '/Users/ghrp/.utils/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ghrp/.utils/google-cloud-sdk/completion.zsh.inc'; fi
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
 alias ftr="rlwrap java -jar ~/dev/ftr/target/ftr.jar"
 alias zen="rlwrap java -jar ~/dev/ftr/target/zen.jar"
+
+export PATH=$PATH:$HOME/.local/share/nvim/plugged/vim-iced/bin
+
+export GRAALVM_HOME="/Users/ghrp/graalvm-ce-java17-22.3.0/Contents/Home"
+export PATH="/Users/ghrp/graalvm-ce-java17-22.3.0/Contents/Home/bin:$PATH"
+export PATH="/Users/ghrp/.local/bin:$PATH"

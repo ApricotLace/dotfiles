@@ -5,7 +5,7 @@
 
 (setq enable-local-variables t)
 
-(setq doom-font (font-spec :family "Iosevka" :size 16 :antialias="on"))
+(setq doom-font (font-spec :family "Iosevka" :size 16.5 :antialias="on"))
 
 (setq display-line-numbers-type nil)
 
@@ -40,7 +40,10 @@
 
   (setq clojure-indent-style 'align-arguments)
   (setq clojure-align-forms-automatically nil)
-  )
+  (cider-add-to-alist 'cider-jack-in-dependencies
+                      "org.clojure/tools.deps"
+                      '(("git/sha" . "8f8fc2571e721301b6d52e191129248355cb8c5a")
+                        ("git/url" . "https://github.com/clojure/tools.deps/"))))
 
 (after! lsp-ui
   (setq lsp-enable-symbol-highlighting nil)
@@ -54,12 +57,7 @@
   (setq lsp-eldoc-enable-hover nil) ; disable lsp-mode showing eldoc during symbol at point
   (setq lsp-ui-sideline-enable nil)
   (setq lsp-modeline-code-actions-enable nil)
-
-  )
-
-
-
-
+  (setq lsp-idle-delay 0))
 
 (set-popup-rule! "^\\*help*" :size 0.4 :side 'bottom :select t :quit t)
 (set-popup-rule! "^\\*info*" :size 0.7 :side 'bottom :select t :quit t)
@@ -109,6 +107,7 @@
          "j" #'paredit-join-sexps
          "c" #'paredit-split-sexp
          "d" #'paredit-kill
+         "D" #'sp-kill-sexp
          "<" #'paredit-backward-slurp-sexp
          ">" #'paredit-backward-barf-sexp
          "s" #'paredit-forward-slurp-sexp
@@ -140,48 +139,94 @@
 (define-key evil-normal-state-map "x" 'delete-forward-char)     ; delete to the black hole
 (define-key evil-normal-state-map "X" 'delete-backward-char)
 
-(nano-modeline-mode 1)
-
 (setq projectile-create-missing-test-files t)
 
-(defun db-cfg ()
+
+(defun clj-insert-persist-scope-macro ()
   (interactive)
-  (save-excursion
-    (let (p1 p2 dbcon)
-      (search-backward "---- db:")
-      (setq p1 (point))
-      (setq p2 (line-end-position))
-      (substring (buffer-substring-no-properties p1 p2) 8 ))))
+  (insert
+   "(defmacro persist-scope
+              \"Takes local scope vars and defines them in the global scope. Useful for RDD\"
+              []
+              `(do ~@(map (fn [v] `(def ~v ~v))
+                  (keys (cond-> &env (contains? &env :locals) :locals)))))"))
 
-(defun run-sql ()
+
+(defun persist-scope ()
   (interactive)
-  (save-excursion
-    (let (p1 p2 dbcon)
-      (search-backward "----")
-      (setq p1 (point))
-      (search-forward "----")
-      (search-forward "----")
-      (setq p2 (point))
+  (let ((beg (point)))
+    (clj-insert-persist-scope-macro)
+    (cider-eval-region beg (point))
+    (delete-region beg (point))
+    (insert "(persist-scope)")
+    (cider-eval-defun-at-point)
+    (delete-region beg (point))))
 
-      (let (cmd output)
-        (setq cmd (buffer-substring-no-properties p1 p2))
-        (write-region p1 p2 "/tmp/epsql.sql")
-        (setq cmd (format "psql %s -f /tmp/epsql.sql -o /tmp/epsqlresp.sql" (db-cfg) cmd))
-        (setq output (shell-command-to-string cmd))
-        (message output)
-        (with-output-to-temp-buffer "sql-result"
-          (save-current-buffer
-            (set-buffer "sql-result")
-            (funcall (intern "sql-mode"))
-            (insert-file-contents "/tmp/epsqlresp.sql" nil nil nil t)
-            (insert
-             (format "----------- Result ------------\n%s-----------  End   ------------\n\n\n" output)))
-          )))))
+(setq cider-debug-use-overlays t)
+(setq cider-overlays-use-font-lock nil)
 
-(define-key evil-normal-state-map (kbd "RET") 'run-sql)
+(after! ivy-posframe
+  (setq ivy-posframe-size-function
+        (lambda ()
+          (list :width 100 :height 15)))
 
-(elcord-mode)
+  (defun my-posframe--display (str &optional poshandler)
+    (if (not (posframe-workable-p))
+        (ivy-display-function-fallback str)
+      (with-ivy-window
+        (apply #'posframe-show
+               ivy-posframe-buffer
+               :font ivy-posframe-font
+               :string str
+               :position (point)
+               :poshandler poshandler
+               :background-color (face-attribute 'ivy-posframe :background nil t)
+               :foreground-color (face-attribute 'ivy-posframe :foreground nil t)
+               :left-fringe 5
+               :right-fringe 5
+               :border-width 1
+               :border-color "#969896"
+               :override-parameters ivy-posframe-parameters
+               :refposhandler ivy-posframe-refposhandler
+               :hidehandler #'ivy-posframe-hidehandler
+               (funcall ivy-posframe-size-function))
+        (ivy-posframe--add-prompt 'ignore)))
+    (with-current-buffer ivy-posframe-buffer
+      (setq-local truncate-lines ivy-truncate-lines)))
 
-(setq-default mode-line-format nil)
+  (defun my-posframe-display-at-frame-center (str)
+    (my-posframe--display str #'posframe-poshandler-frame-center))
+
+  (setq ivy-posframe-display-functions-alist '((t . my-posframe-display-at-frame-center))))
+
+
+(defun mode-line-render (left right)
+  (concat left
+          (propertize " " 'display `(space :align-to (- right ,(length right))))
+          right))
+
+
+(setq-default header-line-format '((:eval
+                                    (mode-line-render
+                                     (format-mode-line (list
+                                                        (propertize "☰" 'face `(:inherit mode-line-buffer-id)
+                                                                    'help-echo "Mode(s) menu"
+                                                                    'mouse-face 'mode-line-highlight
+                                                                    'local-map   mode-line-major-mode-keymap)
+                                                        " %b "
+                                                        (if (and buffer-file-name (buffer-modified-p))
+                                                            (propertize "(modified)" 'face `(:inherit face-faded)))))
+                                     (format-mode-line
+                                      (propertize "%4l:%2c" 'face `(:inherit face-faded)))))))
+
+(set-frame-parameter (selected-frame)
+                     'internal-border-width 15)
 
 (global-hide-mode-line-mode)
+
+(setq window-divider-default-right-width 1)
+
+(setq window-divider-default-places 'right-only)
+
+(window-divider-mode)
+
