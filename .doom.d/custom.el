@@ -6,14 +6,20 @@
  '(ansi-color-names-vector
    ["#222222" "#d7d5d1" "#d7d5d1" "#d7d5d1" "#d7d5d1" "#d7d5d1" "#d7d5d1" "#d7d5d1"])
  '(connection-local-criteria-alist
-   '(((:application tramp :machine "localhost")
+   '(((:application tramp :protocol "flatpak")
+      tramp-container-connection-local-default-flatpak-profile)
+     ((:application tramp :machine "ghrps-MBP")
+      tramp-connection-local-darwin-ps-profile)
+     ((:application tramp :machine "localhost")
       tramp-connection-local-darwin-ps-profile)
      ((:application tramp :machine "ghrps-MacBook-Pro.local")
       tramp-connection-local-darwin-ps-profile)
      ((:application tramp)
       tramp-connection-local-default-system-profile tramp-connection-local-default-shell-profile)))
  '(connection-local-profile-alist
-   '((tramp-connection-local-darwin-ps-profile
+   '((tramp-container-connection-local-default-flatpak-profile
+      (tramp-remote-path "/app/bin" tramp-default-remote-path "/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin" "/opt/bin" "/opt/sbin" "/opt/local/bin"))
+     (tramp-connection-local-darwin-ps-profile
       (tramp-process-attributes-ps-args "-acxww" "-o" "pid,uid,user,gid,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" "-o" "state=abcde" "-o" "ppid,pgid,sess,tty,tpgid,minflt,majflt,time,pri,nice,vsz,rss,etime,pcpu,pmem,args")
       (tramp-process-attributes-ps-format
        (pid . number)
@@ -116,12 +122,16 @@
  '(line-number-mode nil)
  '(objed-cursor-color "#d7d5d1")
  '(package-selected-packages
-   '(color-theme-sanityinc-tomorrow nano-theme seoul256-theme smudge uuidgen restclient paredit))
+   '(ef-themes color-theme-sanityinc-tomorrow nano-theme seoul256-theme smudge uuidgen restclient paredit))
  '(pdf-view-midnight-colors (cons "#d7d5d1" "#222222"))
  '(rustic-ansi-faces
    ["#222222" "#d7d5d1" "#d7d5d1" "#d7d5d1" "#d7d5d1" "#d7d5d1" "#d7d5d1" "#d7d5d1"])
  '(safe-local-variable-values
-   '((cider-clojure-cli-global-options . "-A:test")
+   '((cider-clojure-cli-aliases . "-A:dev:ui")
+     (cider-clojure-cli-aliases . "-A:profile")
+     (cider-clojure-cli-aliases . "-A:test:pipeline")
+     (cider-clojure-cli-aliases . "-A:test:profile:build")
+     (cider-clojure-cli-global-options . "-A:test")
      (cider-clojure-cli-aliases . "-A:test:ftr-ui")
      (cider-clojure-cli-aliases . "-A:test")
      (cider-clojure-cli-aliases . "-A:test:build")))

@@ -82,6 +82,10 @@
   (evil-insert 1))
 
 (map! (:localleader
+       (:map (js2-mode-map)
+        (:prefix ("e" . "eval")
+        "e" #'nodejs-repl-send-last-expression
+        "b" #'nodejs-repl-send-buffer))
        (:map (clojure-mode-map clojurescript-mode-map)
         "=" #'cider-format-defun
         "+" #'clojure-align
@@ -206,6 +210,15 @@
           right))
 
 
+(defface face-faded nil
+"Faded face is for information that are less important.
+It is made by using the same hue as the default but with a lesser
+intensity than the default. It can be used for comments,
+secondary information and also replace italic (which is generally
+abused anyway)."
+:group 'elegance)
+
+
 (setq-default header-line-format '((:eval
                                     (mode-line-render
                                      (format-mode-line (list
@@ -213,14 +226,12 @@
                                                                     'help-echo "Mode(s) menu"
                                                                     'mouse-face 'mode-line-highlight
                                                                     'local-map   mode-line-major-mode-keymap)
-                                                        " %b "
+                                                        " " (when buffer-file-name
+                                                          (concat (file-relative-name buffer-file-name (projectile-project-root)) " "))
                                                         (if (and buffer-file-name (buffer-modified-p))
                                                             (propertize "(modified)" 'face `(:inherit face-faded)))))
                                      (format-mode-line
                                       (propertize "%4l:%2c" 'face `(:inherit face-faded)))))))
-
-(set-frame-parameter (selected-frame)
-                     'internal-border-width 15)
 
 (global-hide-mode-line-mode)
 
@@ -230,3 +241,13 @@
 
 (window-divider-mode)
 
+(add-hook 'clojure-mode-hook #'paredit-mode)
+
+mode-line-misc-info
+
+(setq crdt-tuntox-executable "/opt/homebrew/bin/tuntox")
+(setq crdt-use-tuntox t)
+
+(setq cider-print-fn 'fipp)
+
+(setq cider-print-options '(("print-level" 100) ("level" 100)))

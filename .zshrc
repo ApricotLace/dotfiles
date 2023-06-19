@@ -60,3 +60,5 @@ export PATH=$PATH:$HOME/.local/share/nvim/plugged/vim-iced/bin
 export GRAALVM_HOME="/Users/ghrp/graalvm-ce-java17-22.3.0/Contents/Home"
 export PATH="/Users/ghrp/graalvm-ce-java17-22.3.0/Contents/Home/bin:$PATH"
 export PATH="/Users/ghrp/.local/bin:$PATH"
+export JAVA_HOME="/opt/homebrew/opt/openjdk"
+export PATH="$JAVA_HOME/bin:$PATH"
