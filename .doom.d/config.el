@@ -249,5 +249,4 @@ mode-line-misc-info
 (setq crdt-use-tuntox t)
 
 (setq cider-print-fn 'fipp)
-
-(setq cider-print-options '(("print-level" 100) ("level" 100)))
+(setq cider-print-options '(("print-level" 1) ("level" 1)))
